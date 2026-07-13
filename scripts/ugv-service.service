@@ -1,0 +1,17 @@
+[Unit]
+Description=UGV02 web server
+
+[Service]
+ExecStart=/usr/bin/python3 /home/jetson/UGV02server/UGVserver.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# sudo cp ugv-service.service /etc/systemd/system
+# systemctl start ugv-service
+# systemctl status ugv-service
+# systemctl enable ugv-service
+#
+# sudo systemctl stop ugv-service
+# systemctl disable ugv-service
