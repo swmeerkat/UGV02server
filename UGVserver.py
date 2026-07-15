@@ -45,13 +45,6 @@ class UGVserver(BaseHTTPRequestHandler):
         content = "{}"
         status_code = 200
         match self.url.path:
-            case "/js":
-                url = "http://" + CHASSIS_IP + "/js?" + self.url.query
-                response = requests.get(url)
-                status_code = response.status_code
-                if response.text != "null":
-                    content = response.text
-                    print(content)
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
         self.send_response(status_code)
@@ -60,20 +53,28 @@ class UGVserver(BaseHTTPRequestHandler):
         self.wfile.write(content.encode("utf-8"))
 
     def do_POST(self):
-        response = "{}"
+        content = "{}"
+        status_code = 200
         match self.url.path:
+            case "/ugv02/cmd":
+                url = "http://" + CHASSIS_IP + "/js?json=" + self.post_data.decode("utf-8")
+                response = requests.get(url)
+                status_code = response.status_code
+                if response.text != "null":
+                    content = response.text
+                    print(content)
             case "/gimbal/camera/on":
                 pid = gimbal_cam_on()
-                response = "{ \"gimbal_pid\": \"" + str(pid) + "\"}"
+                content = "{ \"gimbal_pid\": \"" + str(pid) + "\"}"
             case "/gimbal/camera/off":
                 result = gimbal_cam_off(self.post_data.decode("utf-8"))
-                response = "{ \"result\": \"" + str(result) + "\" }"
+                content = "{ \"result\": \"" + str(result) + "\" }"
             case _:
-                response = "{ \"error\": \"unknown command: " + self.path + "\"}"
-        self.send_response(200)
+                content = "{ \"error\": \"unknown command: " + self.path + "\"}"
+        self.send_response(status_code)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        self.wfile.write(response.encode("utf-8"))
+        self.wfile.write(content.encode("utf-8"))
 
 
 if __name__ == "__main__":
