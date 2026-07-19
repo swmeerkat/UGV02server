@@ -14,22 +14,28 @@
 # redirect stdout, stderr to /dev/null
 # return the pid of the last started background process
 #
-#gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
-#   device=/dev/video0 ! 'video/x-raw, format=YUY2, width=800, height=600, framerate=10/1' ! \
-#   nvvidconv ! x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
-#   rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
+gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
+   device=/dev/video0 ! 'video/x-raw, format=YUY2, width=640, height=480, framerate=30/1' ! \
+   nvvidconv ! x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
+   rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
 
-gst-launch-1.0 nvv4l2camerasrc  \
-   device=/dev/video0 ! 'video/x-raw(memory:NVMM), format=YUY2, width=800, height=600, framerate=10/1' ! \
-   nvvidconv ! \
-   x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
-   h264parse ! \
-   rtph264pay config-interval=1 pt=96 aggregate-mode=zero-latency ! \
-   udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
+#gst-launch-1.0 nvv4l2camerasrc  \
+#   device=/dev/video0 ! 'video/x-raw(memory:NVMM), format=YUY2, width=800, height=600, framerate=10/1' ! \
+#   nvvidconv ! \
+#   x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
+#   h264parse ! \
+#   rtph264pay config-interval=1 pt=96 aggregate-mode=zero-latency ! \
+#   udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
 echo $!
 
 # Test
+#
 #gst-launch-1.0 -v videotestsrc pattern=smpte100 ! 'video/x-raw, width=1280, height=720, framerate=10/1' ! \
 #  nvvidconv ! \
 #  x264enc tune=zerolatency speed-preset=fast ! \
 #  rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e
+#
+# on local screen or VNC
+# gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
+#   device=/dev/video0 ! 'video/x-raw, format=YUY2, width=640, height=480, framerate=30/1' ! \
+#   nvvidconv ! autovideosink
