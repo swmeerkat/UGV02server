@@ -15,7 +15,7 @@
 # return the pid of the last started background process
 #
 gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
-   device=/dev/video0 ! 'video/x-raw, format=YUY2, width=640, height=480, framerate=30/1' ! \
+   device=/dev/video0 ! 'video/x-raw, format=YUY2, width=800, height=600, framerate=10/1' ! \
    nvvidconv ! x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
    rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
 

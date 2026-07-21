@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-import requests
 import json
 import subprocess
 from functools import cached_property
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qsl, urlparse
 
+from drivers.UGV02Driver import UGV02
+
 CHASSIS_IP = "192.168.178.29"
+
 
 def gimbal_cam_on():
     command = "/home/jetson/UGV02server/scripts/start_gimbal_cam.sh"
@@ -57,11 +59,12 @@ class UGVserver(BaseHTTPRequestHandler):
         status_code = 200
         match self.url.path:
             case "/ugv02/cmd":
-                url = "http://" + CHASSIS_IP + "/js?json=" + self.post_data.decode("utf-8")
-                response = requests.get(url)
-                status_code = response.status_code
-                if response.text != "null":
-                    content = response.text
+                # url = "http://" + CHASSIS_IP + "/js?json=" + self.post_data.decode("utf-8")
+                # response = requests.get(url)
+                # status_code = response.status_code
+                response = ugv02.write(self.post_data.decode("utf-8") + "\n")
+                if content != "null":
+                    content = str(response)
                     print(content)
             case "/gimbal/camera/on":
                 pid = gimbal_cam_on()
@@ -78,6 +81,7 @@ class UGVserver(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    ugv02 = UGV02.UGV02()
     ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
     print("UGV server started at http://0.0.0.0:8000")
     try:
