@@ -38,8 +38,7 @@ echo $!
 # Test
 #
 #gst-launch-1.0 -v videotestsrc pattern=smpte100 ! 'video/x-raw, width=1280, height=720, framerate=10/1' ! \
-#  nvvidconv ! \
-#  x264enc tune=zerolatency speed-preset=fast ! \
+#  nvvidconv ! x264enc tune=zerolatency speed-preset=fast ! \
 #  rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e
 #
 # on local screen or VNC
