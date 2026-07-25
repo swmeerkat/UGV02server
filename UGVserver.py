@@ -7,6 +7,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qsl, urlparse
 
 from drivers.UGV02Driver import UGV02
+from drivers.OAKDS2Driver import OAKDS2
 
 CHASSIS_IP = "192.168.178.29"
 
@@ -82,6 +83,7 @@ class UGVserver(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     ugv02 = UGV02.UGV02()
+    oakds = OAKDS2.OAKDS2()
     ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
     print("UGV server started at http://0.0.0.0:8000")
     try:
