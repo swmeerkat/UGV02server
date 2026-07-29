@@ -24,3 +24,6 @@ class OAKDS2:
 
         # Register the pipeline graph to be visualized in the Visualizer
         self.visualizer.registerPipeline(self.pipeline)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.pipeline.stop()

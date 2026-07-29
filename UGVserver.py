@@ -91,5 +91,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
     finally:
+        ugv02.__exit__(None, None, None)
+        oakds.__exit__(None, None, None)
         ugvServer.server_close()
         print("UGV server stopped")
