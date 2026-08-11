@@ -8,6 +8,7 @@ from urllib.parse import parse_qsl, urlparse
 
 from drivers.UGV02Driver import UGV02
 from drivers.OAKDS2Driver import OAKDS2
+from drivers.UPSModuleC import INA219
 
 CHASSIS_IP = "192.168.178.29"
 
@@ -48,6 +49,8 @@ class UGVserver(BaseHTTPRequestHandler):
         content = "{}"
         status_code = 200
         match self.url.path:
+            case "/ugv02/power_status":
+                content = ina219.getPowerStatus()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
         self.send_response(status_code)
@@ -84,6 +87,7 @@ class UGVserver(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     ugv02 = UGV02.UGV02()
     oakds = OAKDS2.OAKDS2()
+    ina219 = INA219.INA219(7, 0x41)
     ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
     print("UGV server started at http://0.0.0.0:8000")
     try:
