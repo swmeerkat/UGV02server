@@ -87,7 +87,7 @@ class UGVserver(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     ugv02 = UGV02.UGV02()
     oakds = OAKDS2.OAKDS2()
-    ina219 = INA219.INA219(7, 0x41)
+    ina219 = INA219.INA219()
     ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
     print("UGV server started at http://0.0.0.0:8000")
     try:

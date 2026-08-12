@@ -67,7 +67,7 @@ class Mode:
 
 class INA219:
 
-    def __init__(self, i2c_bus=7, addr=0x40):
+    def __init__(self, i2c_bus=7, addr=0x41):
         self.bus = smbus.SMBus(i2c_bus)
         self.addr = addr
         # Set chip to known config values to start
@@ -120,7 +120,6 @@ class INA219:
         # 5. Compute the calibration register
         # Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
         # Cal = 13434 (0x347a)
-
         self._cal_value = 26868
 
         # 6. Calculate the power LSB
@@ -185,7 +184,7 @@ class INA219:
         return value * self._power_lsb
 
     def getPowerStatus(self):
-        # bus voltage is the voltage at the output connector / load side
+        # Bus voltage is the voltage at the output connector / load side
         bus_voltage = self.getBusVoltage_V()
         current = self.getCurrent_mA()
         power = self.getPower_W()
