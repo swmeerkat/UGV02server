@@ -38,6 +38,11 @@ class UGV02:
             self.serial_port.write(bytes(data + "\n", "utf-8"))
             while True:
                 if self.serial_port.in_waiting > 0:
+                    # ESP32 controller mirrors the command
+                    response = self.serial_port.readline().strip().decode("utf-8")
+                    break
+            while True:
+                if self.serial_port.in_waiting > 0:
                     response = self.serial_port.readline().strip().decode("utf-8")
                     logging.info(f"Received response: {data}")
                 return response

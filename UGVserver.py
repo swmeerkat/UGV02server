@@ -49,7 +49,7 @@ class UGVserver(BaseHTTPRequestHandler):
         content = "{}"
         status_code = 200
         match self.url.path:
-            case "/ugv02/power_status":
+            case "/ups/status":
                 content = ina219.getPowerStatus()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
@@ -63,9 +63,6 @@ class UGVserver(BaseHTTPRequestHandler):
         status_code = 200
         match self.url.path:
             case "/ugv02/cmd":
-                # url = "http://" + CHASSIS_IP + "/js?json=" + self.post_data.decode("utf-8")
-                # response = requests.get(url)
-                # status_code = response.status_code
                 response = ugv02.write(self.post_data.decode("utf-8") + "\n")
                 if content != "null":
                     content = str(response)
