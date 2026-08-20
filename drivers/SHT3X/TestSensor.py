@@ -11,6 +11,7 @@ bus = smbus.SMBus(7)
 # Clear status register
 bus.write_byte_data(SENSOR_ADDRESS, 0x30, 0x41)
 time.sleep(0.05)
+#data1 = bus.read_i2c_block_data(SENSOR_ADDRESS, 0x00, 2)
 #print("Status: 0x{:04x}".format((data1[0] << 8) + data1[1]))
 
 # Write the sensor command
