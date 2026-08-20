@@ -67,7 +67,7 @@ class Mode:
 
 class INA219:
 
-    # I2C bus = 7, default address = 41
+    # I2C bus = 7, default address = 0x41
     def __init__(self, i2c_bus=7, addr=0x41):
         self.bus = smbus.SMBus(i2c_bus)
         self.addr = addr

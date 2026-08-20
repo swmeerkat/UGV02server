@@ -6,8 +6,8 @@ from functools import cached_property
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qsl, urlparse
 
-from drivers.UGV02Driver import UGV02
-from drivers.OAKDS2Driver import OAKDS2
+from drivers.UGV02 import UGV02
+from drivers.OAKDS2 import OAKDS2
 from drivers.UPSModuleC import INA219
 
 CHASSIS_IP = "192.168.178.29"
