@@ -10,14 +10,14 @@ bus = smbus.SMBus(7)
 
 # Clear status register
 bus.write_byte_data(SENSOR_ADDRESS, 0x30, 0x41)
-time.sleep(0.05)
+time.sleep(0.02)
 #data1 = bus.read_i2c_block_data(SENSOR_ADDRESS, 0x00, 2)
 #print("Status: 0x{:04x}".format((data1[0] << 8) + data1[1]))
 
 # Write the sensor command
 bus.write_byte_data(SENSOR_ADDRESS, 0x24, 0x00)
 # Time to measure and save the data
-time.sleep(0.05)
+time.sleep(0.02)
 
 # Read data, 6 bytes
 data = bus.read_i2c_block_data(SENSOR_ADDRESS, 0x00, 6)
@@ -41,7 +41,7 @@ print ("Humidity: {:.2f}".format(H))
 
 # Read status register
 bus.write_byte_data(SENSOR_ADDRESS, 0xF3, 0x2D)
-time.sleep(0.05)
+time.sleep(0.02)
 data1 = bus.read_i2c_block_data(SENSOR_ADDRESS, 0x00, 2)
 print("Status: 0x{:04x}".format((data1[0] << 8) + data1[1]))
 

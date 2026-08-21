@@ -9,6 +9,7 @@ from urllib.parse import parse_qsl, urlparse
 from drivers.UGV02 import UGV02
 from drivers.OAKDS2 import OAKDS2
 from drivers.UPSModuleC import INA219
+from drivers.SHT3X import SHT3X
 
 CHASSIS_IP = "192.168.178.29"
 
@@ -51,6 +52,8 @@ class UGVserver(BaseHTTPRequestHandler):
         match self.url.path:
             case "/ups/status":
                 content = ina219.getPowerStatus()
+            case "/env/status":
+                content = sht3x.getMeasurements()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
         self.send_response(status_code)
@@ -85,6 +88,7 @@ if __name__ == "__main__":
     ugv02 = UGV02.UGV02()
     oakds = OAKDS2.OAKDS2()
     ina219 = INA219.INA219()
+    sht3x = SHT3X.SHT3X()
     ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
     print("UGV server started at http://0.0.0.0:8000")
     try:
