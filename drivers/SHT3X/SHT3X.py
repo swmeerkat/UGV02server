@@ -35,12 +35,14 @@ class SHT3X:
         h_lsb = data[4]  # hum LSB
 
         # Convert temperature
-        t_val = (t_msb << 8) + t_lsb
-        t = ((175 * t_val) / 65535) - 45  # formula from data sheet
+        t_hex = (t_msb << 8) + t_lsb
+        t = ((175 * t_hex) / 65535) - 45  # formula from data sheet
+        t_val = ("{:.2f}".format(t))
 
         # Convert humidity
-        h_val = (h_msb << 8) + h_lsb
-        h = ((100 * h_val) / 65535)  # formula from data sheet
+        h_hex = (h_msb << 8) + h_lsb
+        h = ((100 * h_hex) / 65535)  # formula from data sheet
+        h_val = ("{:.2f}".format(h))
 
-        return ("{\"temperature\": {:.2f}".format(t) +
-                "\"humidity\": {:.2f}".format(h) + "}")
+        return ("{\"temperature\": " + t_val + "," +
+                "\"humidity\": " + h_val + "}")
