@@ -7,7 +7,11 @@ class OAKDS2:
     def __init__(self):
         self.visualizer = dai.RemoteConnection()
         # Create pipeline
-        self.pipeline = dai.Pipeline()
+        try:
+            self.pipeline = dai.Pipeline()
+        except:
+            print("Failed to create pipeline")
+            return
 
         # Create camera node
         # Build method without arguments will use the default camera
