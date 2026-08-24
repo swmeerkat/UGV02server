@@ -44,7 +44,7 @@ class UGV02:
             while True:
                 if self.serial_port.in_waiting > 0:
                     response = self.serial_port.readline().strip().decode("utf-8")
-                    logging.info(f"Received response: {data}")
+                    logging.info(f"Received response: {response}")
                 return response
         except Exception as exception_error:
             logging.error("ESP32 communication error: " + str(exception_error))
