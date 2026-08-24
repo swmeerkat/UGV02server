@@ -4,4 +4,3 @@ import SHT3X
 
 status = SHT3X.SHT3X().getMeasurements()
 print("Sensor status: \n" + status)
-
