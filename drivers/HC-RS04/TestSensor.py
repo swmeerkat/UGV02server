@@ -24,10 +24,10 @@ while GPIO.input(echo_pin) == 0:
 while GPIO.input(echo_pin) == 1:
     end = time.perf_counter_ns()
 # elapsed time in s
-elapsed_time = (end - start) / 1000000000
-# speed of sound: appr. 343 m/s at 20 °C -> 34300 cm/s
+elapsed_time_s = (end - start) / 1000000000
+# speed of sound: appr. 343.5 m/s at 20 °C -> 34350 cm/s
 # elapsed time is 2 times the distance to the object
 # distance = elapsed time * speed of sound / 2
-distance = elapsed_time * 17150
-print("distance: " + f"{distance}" + "cm")
+distance_cm = elapsed_time_s * 17175
+print("distance: " + f"{distance_cm}" + "cm")
 GPIO.cleanup()
