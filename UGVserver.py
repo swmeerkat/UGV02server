@@ -6,12 +6,10 @@ from functools import cached_property
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qsl, urlparse
 
-from drivers.UGV02 import UGV02
 from drivers.OAKDS2 import OAKDS2
-from drivers.UPSModuleC import INA219
 from drivers.SHT3X import SHT3X
-
-CHASSIS_IP = "192.168.178.29"
+from drivers.UGV02 import UGV02
+from drivers.UPSModuleC import INA219
 
 
 def gimbal_cam_on():

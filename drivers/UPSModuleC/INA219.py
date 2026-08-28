@@ -4,22 +4,16 @@ import smbus
 
 # see also https://www.waveshare.com/wiki/UPS_Power_Module_(C)
 
-
 # Config Register (R/W)
 _REG_CONFIG = 0x00
-
 # SHUNT VOLTAGE REGISTER (R)
 _REG_SHUNTVOLTAGE = 0x01
-
 # BUS VOLTAGE REGISTER (R)
 _REG_BUSVOLTAGE = 0x02
-
 # POWER REGISTER (R)
 _REG_POWER = 0x03
-
 # CURRENT REGISTER (R)
 _REG_CURRENT = 0x04
-
 # CALIBRATION REGISTER (R/W)
 _REG_CALIBRATION = 0x05
 

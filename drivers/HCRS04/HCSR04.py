@@ -5,9 +5,9 @@ import time
 import Jetson.GPIO as GPIO
 
 # trigger pin: pin 7 of expansion header
-TRIGGER_PIN = 7
+_TRIGGER_PIN = 7
 # echo pin: pin 15 of expansion header
-ECHO_PIN = 15
+_ECHO_PIN = 15
 
 
 class HCSR04:
@@ -16,22 +16,22 @@ class HCSR04:
         # suppress "Could not open /dev/mem for pinmux check"
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(TRIGGER_PIN, GPIO.OUT)
-        GPIO.setup(ECHO_PIN, GPIO.IN)
-        GPIO.output(TRIGGER_PIN, GPIO.LOW)
+        GPIO.setup(_TRIGGER_PIN, GPIO.OUT)
+        GPIO.setup(_ECHO_PIN, GPIO.IN)
+        GPIO.output(_TRIGGER_PIN, GPIO.LOW)
         time.sleep(0.001)
 
-    def getDistance(selfself):
+    def getDistance(self):
         start = 0
         end = 0
         # send the trigger signal
-        GPIO.output(TRIGGER_PIN, GPIO.HIGH)
+        GPIO.output(_TRIGGER_PIN, GPIO.HIGH)
         time.sleep(0.00001)
-        GPIO.output(TRIGGER_PIN, GPIO.LOW)
+        GPIO.output(_TRIGGER_PIN, GPIO.LOW)
         # wait for the echo
-        while GPIO.input(ECHO_PIN) == 0:
+        while GPIO.input(_ECHO_PIN) == 0:
             start = time.perf_counter_ns()
-        while GPIO.input(ECHO_PIN) == 1:
+        while GPIO.input(_ECHO_PIN) == 1:
             end = time.perf_counter_ns()
         # elapsed time in s
         elapsed_time_s = (end - start) / 1000000000

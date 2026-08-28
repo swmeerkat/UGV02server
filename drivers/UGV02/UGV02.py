@@ -4,15 +4,16 @@ import time
 
 import serial
 
-SERIAL_PORT = "/dev/ttyUSB0"
-BAUD_RATE = 115200
+_SERIAL_PORT = "/dev/ttyUSB0"
+_BAUD_RATE = 115200
+
 
 class UGV02:
 
     def __init__(self):
         self.serial_port = serial.Serial(
-            port=SERIAL_PORT,
-            baudrate=BAUD_RATE,
+            port=_SERIAL_PORT,
+            baudrate=_BAUD_RATE,
             bytesize=serial.EIGHTBITS,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE
