@@ -83,17 +83,19 @@ class UGVserver(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    ugv02 = UGV02.UGV02()
-    oakds = OAKDS2.OAKDS2()
-    ina219 = INA219.INA219()
-    sht3x = SHT3X.SHT3X()
-    ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
-    print("UGV server started at http://0.0.0.0:8000")
+    ugvServer = None
     try:
+        ugv02 = UGV02.UGV02()
+        oakds = OAKDS2.OAKDS2()
+        ina219 = INA219.INA219()
+        sht3x = SHT3X.SHT3X()
+        ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
+        print("UGV server started at http://0.0.0.0:8000")
         ugvServer.serve_forever()
     except KeyboardInterrupt:
         pass
     finally:
-        ugvServer.server_close()
+        if ugvServer is not None:
+            ugvServer.server_close()
         print("UGV server stopped")
         exit(0)
