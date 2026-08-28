@@ -19,7 +19,7 @@ class UGV02:
             stopbits=serial.STOPBITS_ONE
         )
         time.sleep(1)
-        print("UGV02 driver initialized")
+        logging.info("UGV02: Driver initialized")
 
     def read(self):
         try:
@@ -27,28 +27,31 @@ class UGV02:
             response = ' '
             while response[0] != "{":
                 response = self.serial_port.readline().strip().decode("utf-8")
+            logging.info(f"UGV02: Read response - {response}")
             return response
         except Exception as exception_error:
-            logging.error("ESP32 communication error: " + str(exception_error))
+            logging.error("UGV02: ESP32 communication error - " + str(exception_error))
         finally:
             pass
 
     def write(self, data):
-        response = {}
         try:
+            logging.info("UGV02: Write command - " + data.strip())
             self.serial_port.write(bytes(data + "\n", "utf-8"))
             while True:
                 if self.serial_port.in_waiting > 0:
                     # ESP32 controller mirrors the command
-                    response = self.serial_port.readline().strip().decode("utf-8")
+                    self.serial_port.readline().strip().decode("utf-8")
                     break
+            response = "{}"
             while True:
                 if self.serial_port.in_waiting > 0:
                     response = self.serial_port.readline().strip().decode("utf-8")
-                    logging.info(f"Received response: {response}")
-                return response
+                break
+            logging.info(f"UGV02: Write response - {response}")
+            return response
         except Exception as exception_error:
-            logging.error("ESP32 communication error: " + str(exception_error))
+            logging.error("UGV02: ESP32 communication error - " + str(exception_error))
         finally:
             pass
 

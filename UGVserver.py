@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import logging
 import subprocess
 from functools import cached_property
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -67,7 +68,6 @@ class UGVserver(BaseHTTPRequestHandler):
                 response = ugv02.write(self.post_data.decode("utf-8") + "\n")
                 if content != "null":
                     content = str(response)
-                    print(content)
             case "/gimbal/camera/on":
                 pid = gimbal_cam_on()
                 content = "{ \"gimbal_pid\": \"" + str(pid) + "\"}"
@@ -84,6 +84,7 @@ class UGVserver(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     ugvServer = None
+    logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S', level=logging.WARNING)
     try:
         ugv02 = UGV02.UGV02()
         oakds = OAKDS2.OAKDS2()
