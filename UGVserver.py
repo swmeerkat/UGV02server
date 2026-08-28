@@ -49,7 +49,7 @@ class UGVserver(BaseHTTPRequestHandler):
         status_code = 200
         match self.url.path:
             case "/ups/status":
-                content = ina219.getPowerStatus()
+                content = ina219.get_power_status()
             case "/env/status":
                 content = sht3x.get_measurements()
             case _:
@@ -94,7 +94,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
     finally:
-        ugv02.__exit__(None, None, None)
-        oakds.__exit__(None, None, None)
         ugvServer.server_close()
         print("UGV server stopped")
+        exit(0)

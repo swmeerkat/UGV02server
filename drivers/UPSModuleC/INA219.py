@@ -156,33 +156,33 @@ class INA219:
                  Mode.SANDBVOLT_CONTINUOUS
         self.write(_REG_CONFIG, config)
 
-    def getShuntVoltage_mV(self):
+    def get_shunt_voltage_mV(self):
         value = self.read(_REG_SHUNTVOLTAGE)
         if value > 32767:
             value -= 65536
         return value * 0.01
 
-    def getBusVoltage_V(self):
+    def get_bus_voltage_V(self):
         value = self.read(_REG_BUSVOLTAGE)
         return (value >> 3) * 0.004
 
-    def getCurrent_mA(self):
+    def get_current_mA(self):
         value = self.read(_REG_CURRENT)
         if value > 32767:
             value -= 65536
         return value * self._current_lsb
 
-    def getPower_W(self):
+    def get_power_W(self):
         value = self.read(_REG_POWER)
         if value > 32767:
             value -= 65536
         return value * self._power_lsb
 
-    def getPowerStatus(self):
+    def get_power_status(self):
         # Bus voltage is the voltage at the output connector / load side
-        bus_voltage = self.getBusVoltage_V()
-        current = self.getCurrent_mA()
-        power = self.getPower_W()
+        bus_voltage = self.get_bus_voltage_V()
+        current = self.get_current_mA()
+        power = self.get_power_W()
         p = (bus_voltage - 9) / 3.6 * 100
         p = max(0, min(p, 100))
         par1 = "{:6.3f}, ".format(bus_voltage)

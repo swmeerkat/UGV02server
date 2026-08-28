@@ -40,7 +40,6 @@ class HCSR04:
         # distance = elapsed time * speed of sound / 2
         distance_cm = round(elapsed_time_s * 17175, 1)
         return distance_cm
-        return distance_cm
 
     def __exit__(self, exception_type, exception_value, exception_traceback):
         GPIO.cleanup()
