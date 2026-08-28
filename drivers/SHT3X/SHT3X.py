@@ -27,7 +27,7 @@ class SHT3X:
         data = self.bus.read_i2c_block_data(self.addr, 0x00, 6)
         return data
 
-    def getMeasurements(self):
+    def get_measurements(self):
         data = self.read_values()
         t_msb = data[0]  # temp MSB
         t_lsb = data[1]  # temp LSB

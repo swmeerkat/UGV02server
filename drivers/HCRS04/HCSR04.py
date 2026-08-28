@@ -21,7 +21,7 @@ class HCSR04:
         GPIO.output(_TRIGGER_PIN, GPIO.LOW)
         time.sleep(0.001)
 
-    def getDistance(self):
+    def get_distance(self):
         start = 0
         end = 0
         # send the trigger signal

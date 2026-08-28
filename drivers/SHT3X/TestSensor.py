@@ -2,5 +2,5 @@
 
 import SHT3X
 
-status = SHT3X.SHT3X().getMeasurements()
+status = SHT3X.SHT3X().get_measurements()
 print("Sensor status: " + status)

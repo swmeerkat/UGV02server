@@ -51,7 +51,7 @@ class UGVserver(BaseHTTPRequestHandler):
             case "/ups/status":
                 content = ina219.getPowerStatus()
             case "/env/status":
-                content = sht3x.getMeasurements()
+                content = sht3x.get_measurements()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
         self.send_response(status_code)
