@@ -59,6 +59,7 @@ class UGVserver(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(content.encode("utf-8"))
+        logging.info("UGVserver GET response: " + content)
 
     def do_POST(self):
         content = "{}"
@@ -80,6 +81,7 @@ class UGVserver(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(content.encode("utf-8"))
+        logging.info("UGVserver POST response: " + content)
 
 
 if __name__ == "__main__":
