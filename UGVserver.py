@@ -55,7 +55,8 @@ class UGVserver(BaseHTTPRequestHandler):
                 content = sht3x.get_measurements()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
-        self.send_response(status_code)
+        # suppress http server logging
+        self.send_response_only(status_code)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(content.encode("utf-8"))
@@ -77,7 +78,8 @@ class UGVserver(BaseHTTPRequestHandler):
                 content = "{ \"result\": \"" + str(result) + "\" }"
             case _:
                 content = "{ \"error\": \"unknown command: " + self.path + "\"}"
-        self.send_response(status_code)
+        # suppress http server logging
+        self.send_response_only(status_code)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(content.encode("utf-8"))
