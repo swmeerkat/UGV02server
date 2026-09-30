@@ -50,9 +50,11 @@ class UGVserver(BaseHTTPRequestHandler):
         status_code = 200
         match self.url.path:
             case "/ups/status":
-                content = ina219.get_power_status()
+                if ina219 is not None:
+                    content = ina219.get_power_status()
             case "/env/status":
-                content = sht3x.get_measurements()
+                if sht3x is not None:
+                   content = sht3x.get_measurements()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
         # suppress http server logging
@@ -92,8 +94,16 @@ if __name__ == "__main__":
     try:
         ugv02 = UGV02.UGV02()
         oakds = OAKDS2.OAKDS2()
-        ina219 = INA219.INA219()
-        sht3x = SHT3X.SHT3X()
+        try:
+            ina219 = INA219.INA219()
+        except:
+            ina219 = None
+            print("Power sensor unavailable")
+        try:
+            sht3x = SHT3X.SHT3X()
+        except:
+            sht3x = None
+            print("Temperature / Humidity sensor unavailable")
         ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
         print("UGV server started at http://0.0.0.0:8000")
         ugvServer.serve_forever()
