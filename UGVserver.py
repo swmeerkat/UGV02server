@@ -69,8 +69,9 @@ class UGVserver(BaseHTTPRequestHandler):
         status_code = 200
         match self.url.path:
             case "/ugv02/cmd":
-                response = ugv02.write(self.post_data.decode("utf-8") + "\n")
-                if content != "null":
+                if ugv02 is not None:
+                  response = ugv02.write(self.post_data.decode("utf-8") + "\n")
+                  if content != "null":
                     content = str(response)
             case "/gimbal/camera/on":
                 pid = gimbal_cam_on()
@@ -89,28 +90,33 @@ class UGVserver(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    print("Starting UGVserver")
     ugvServer = None
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S', level=logging.WARNING)
     try:
         ugv02 = UGV02.UGV02()
-        oakds = OAKDS2.OAKDS2()
-        try:
-            ina219 = INA219.INA219()
-        except:
-            ina219 = None
-            print("Power sensor unavailable")
-        try:
-            sht3x = SHT3X.SHT3X()
-        except:
-            sht3x = None
-            print("Temperature / Humidity sensor unavailable")
+    except:
+        ugv02 = None
+        print("--UGV02 chassis unavailable")
+    oakds = OAKDS2.OAKDS2()
+    try:
+        ina219 = INA219.INA219()
+    except:
+        ina219 = None
+        print("--Power sensor unavailable")
+    try:
+        sht3x = SHT3X.SHT3X()
+    except:
+        sht3x = None
+        print("--Temperature / Humidity sensor unavailable")
+    try:
         ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
-        print("UGV server started at http://0.0.0.0:8000")
+        print("++UGV server started at http://0.0.0.0:8000")
         ugvServer.serve_forever()
     except KeyboardInterrupt:
         pass
     finally:
         if ugvServer is not None:
             ugvServer.server_close()
-        print("UGV server stopped")
+        print("++UGV server stopped")
         exit(0)
