@@ -7,6 +7,7 @@ from functools import cached_property
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qsl, urlparse
 
+from drivers.HCRS04 import HCSR04
 from drivers.OAKDS2 import OAKDS2
 from drivers.SHT3X import SHT3X
 from drivers.UGV02 import UGV02
@@ -55,6 +56,9 @@ class UGVserver(BaseHTTPRequestHandler):
             case "/env/status":
                 if sht3x is not None:
                    content = sht3x.get_measurements()
+            case "/rear/distance":
+                if hcrs04 is not None:
+                    content = hcrs04.get_distance()
             case _:
                 content = "{ \"error\": \"unknown command: " + self.url.path + "\"}"
         # suppress http server logging
@@ -108,7 +112,12 @@ if __name__ == "__main__":
         sht3x = SHT3X.SHT3X()
     except:
         sht3x = None
-        print("--Temperature / Humidity sensor unavailable")
+        print("--Temperature/Humidity sensor unavailable")
+    try:
+        hcrs04 = HCSR04.HCSR04()
+    except:
+        hcrs04 = None
+        print("--Rear distance sensor unavailable")
     try:
         ugvServer = HTTPServer(("0.0.0.0", 8000), UGVserver)
         print("++UGV server started at http://0.0.0.0:8000")
