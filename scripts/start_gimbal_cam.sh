@@ -2,12 +2,13 @@
 # some examples https://gstreamer.freedesktop.org/documentation/tools/gst-launch.html
 
 # Argus camera
-#gst-launch-1.0 nvarguscamerasrc sensor-id=0 ! \
-#  'video/x-raw(memory:NVMM), width=3280, height=2464, framerate=21/1, format=NV12' ! \
-#  nvvidconv flip-method=2 ! \
-#  x264enc tune=zerolatency bitrate=8000 speed-preset=superfast ! \
-#  rtph264pay pt=96 ! \
-#  udpsink host=192.168.178.24 port=5000 sync=false -e
+gst-launch-1.0 nvarguscamerasrc sensor-id=0 ! \
+  'video/x-raw(memory:NVMM), width=1280, height=720, framerate=60/1, format=NV12' ! \
+  nvvidconv flip-method=2 ! \
+  x264enc tune=zerolatency bitrate=8000 speed-preset=superfast ! \
+  rtph264pay pt=96 ! \
+  udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
+echo $!
 
 # IMX335 5MP USB Camera (B)
 # start the streamer as background process
@@ -20,11 +21,12 @@
 #   rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
 #
 # MPEG format
-gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
-   device=/dev/video0 ! 'image/jpeg, format=MJPG, width=1024, height=768, framerate=30/1' ! \
-   jpegdec ! \
-   nvvidconv ! x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
-   rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
+#gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
+#   device=/dev/video0 ! 'image/jpeg, format=MJPG, width=1024, height=768, framerate=30/1' ! \
+#   jpegdec ! \
+#   nvvidconv ! x264enc tune=zerolatency speed-preset=ultrafast bitrate=8192 ! \
+#   rtph264pay pt=96 ! udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
+# echo $!
 
 #gst-launch-1.0 nvv4l2camerasrc  \
 #   device=/dev/video0 ! 'video/x-raw(memory:NVMM), format=YUY2, width=800, height=600, framerate=10/1' ! \
@@ -33,7 +35,7 @@ gst-launch-1.0 v4l2src  extra-controls="c, auto_exposure=0" \
 #   h264parse ! \
 #   rtph264pay config-interval=1 pt=96 aggregate-mode=zero-latency ! \
 #   udpsink host=192.168.178.24 port=5000 sync=false -e > /dev/null 2>&1 &
-echo $!
+#echo $!
 
 # Test
 #
